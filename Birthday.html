@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Quiz for Amanda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-pink-200 to-yellow-100 flex items-center justify-center min-h-screen">
+  <div id="quiz" class="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full text-center space-y-6">
+    <h1 class="text-2xl font-bold text-pink-600">🎉 Amanda's Birthday Quiz 🎉</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block font-medium">What's Amanda's favorite IPL Team?</label>
+        <input type="text" id="q1" class="mt-1 w-full p-2 border rounded-xl" />
+      </div>
+      <div>
+        <label class="block font-medium">But which team deserved to win in Finals?</label>
+        <input type="text" id="q2" class="mt-1 w-full p-2 border rounded-xl" />
+      </div>
+    </div>
+
+    <button onclick="checkAnswers()" class="bg-pink-500 text-white px-6 py-2 rounded-xl hover:bg-pink-600 transition">
+      Submit Answers
+    </button>
+
+    <div id="message" class="text-xl font-semibold mt-6"></div>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      const color = document.getElementById('q1').value.trim().toLowerCase();
+      const month = document.getElementById('q2').value.trim().toLowerCase();
+      const msg = document.getElementById('message');
+
+      if (color === 'rcb' && month === 'punjab') {
+        document.getElementById('quiz').innerHTML = `
+          <h1 class="text-3xl font-bold text-pink-700">🎂 Happy Birthday Amanda! 🎂</h1>
+         <p class="text-lg mt-4">Your Answers are correct.  🥳</p>  
+	<p class="text-lg mt-4">Wishing you love, laughter, and lots of cake! 🥳</p>
+        `;
+        firecrackers();
+      } else {
+        msg.textContent = "Oops! Try again 🙈";
+        msg.classList.add("text-red-500");
+      }
+    }
+
+    function firecrackers() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+      }, 250);
+    }
+  </script>
+</body>
+</html>
